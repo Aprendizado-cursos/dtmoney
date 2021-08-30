@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Header } from "./components/Header";
+import { createServer } from "miragejs";
+import { GlobalStyle } from "./styles/global";
+import { Dashboard } from "./components/Dashboard";
+import Modal from "react-modal";
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+Modal.setAppElement("#root")
+
+createServer({
+    routes() {
+        this.namespace = "api";
+        this.get("/transactions", () => {
+            return [
+                {
+                    id: 1,
+                    title: "Transaction 1",
+                    amount: 400,
+                    type: "deposit",
+                    category: "Food",
+                    createAt: new Date(),
+                },
+            ];
+        });
+    },
+});
+
+export function App() {
+    const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = React.useState(false);
+
+    function handleOpenNewTransactionModal() {
+        setIsNewTransactionModalOpen(true);
+    }
+    function handleCloseNewTransactionModal() {
+        setIsNewTransactionModalOpen(false);
+    }
+    return (
+        <>
+            <Header onOpenNewTransactionModal={handleOpenNewTransactionModal}></Header>
+            <Dashboard></Dashboard>
+            <Modal isOpen={isNewTransactionModalOpen} onRequestClose={handleCloseNewTransactionModal}>
+                <h2>Cadastrar Transação</h2>
+            </Modal>
+            <GlobalStyle></GlobalStyle>
+        </>
+    );
 }
-
-export default App;
