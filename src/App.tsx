@@ -4,8 +4,9 @@ import { GlobalStyle } from "./styles/global";
 import { Dashboard } from "./components/Dashboard";
 import Modal from "react-modal";
 import React from "react";
+import { NewTransactionModal } from "./components/NewTransactionModal";
 
-Modal.setAppElement("#root")
+Modal.setAppElement("#root");
 
 createServer({
     routes() {
@@ -38,9 +39,10 @@ export function App() {
         <>
             <Header onOpenNewTransactionModal={handleOpenNewTransactionModal}></Header>
             <Dashboard></Dashboard>
-            <Modal isOpen={isNewTransactionModalOpen} onRequestClose={handleCloseNewTransactionModal}>
-                <h2>Cadastrar Transação</h2>
-            </Modal>
+            <NewTransactionModal
+                isOpen={isNewTransactionModalOpen}
+                onRequestClose={handleCloseNewTransactionModal}
+            ></NewTransactionModal>
             <GlobalStyle></GlobalStyle>
         </>
     );
