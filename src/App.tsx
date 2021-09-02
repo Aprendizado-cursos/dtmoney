@@ -5,6 +5,7 @@ import { Dashboard } from "./components/Dashboard";
 import Modal from "react-modal";
 import React from "react";
 import { NewTransactionModal } from "./components/NewTransactionModal";
+import { TransactionContext } from "./TransactionsContext";
 
 Modal.setAppElement("#root");
 
@@ -19,25 +20,25 @@ createServer({
                     id: 1,
                     title: "Freelancer de website",
                     type: "deposit",
-                    category:"dev",
-                    amount:6000,
-                    createdAt: new Date()
+                    category: "dev",
+                    amount: 6000,
+                    createdAt: new Date(),
                 },
                 {
                     id: 2,
                     title: "Aluguel",
                     type: "withdraw",
-                    category:"Casa",
-                    amount:1000,
-                    createdAt: new Date()
+                    category: "Casa",
+                    amount: 1000,
+                    createdAt: new Date(),
                 },
                 {
                     id: 3,
                     title: "Salário",
                     type: "deposit",
-                    category:"CLT",
-                    amount:3000,
-                    createdAt: new Date()
+                    category: "CLT",
+                    amount: 3000,
+                    createdAt: new Date(),
                 },
             ],
         });
@@ -64,7 +65,7 @@ export function App() {
         setIsNewTransactionModalOpen(false);
     }
     return (
-        <>
+        <TransactionContext.Provider value={[]}>
             <Header onOpenNewTransactionModal={handleOpenNewTransactionModal}></Header>
             <Dashboard></Dashboard>
             <NewTransactionModal
@@ -72,6 +73,6 @@ export function App() {
                 onRequestClose={handleCloseNewTransactionModal}
             ></NewTransactionModal>
             <GlobalStyle></GlobalStyle>
-        </>
+        </TransactionContext.Provider>
     );
 }
